@@ -1,4 +1,3 @@
-import 'package:baram/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/load_screen.dart';
 

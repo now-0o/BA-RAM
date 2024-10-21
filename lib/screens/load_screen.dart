@@ -13,7 +13,7 @@ class _LoadScreenState extends State<LoadScreen> {
   void initState() {
     super.initState();
     Future.delayed(
-      const Duration(seconds: 222),
+      const Duration(seconds: 3),
       () {
         Navigator.pushReplacement(
           context,
@@ -27,12 +27,14 @@ class _LoadScreenState extends State<LoadScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xff5079FF),
+    return Scaffold(
+      backgroundColor: const Color(0xff5079FF),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [],
+          children: [
+            Image.asset('imgs/BA-RAM.png'),
+          ],
         ),
       ),
     );
