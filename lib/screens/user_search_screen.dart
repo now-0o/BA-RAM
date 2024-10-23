@@ -27,14 +27,61 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('검색 결과'),
-      ),
-      body: Center(
-        child: Text(
-          '입력한 Riot ID: ${widget.riotId}',
-          style: const TextStyle(fontSize: 24),
-        ),
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              Row(
+                children: [
+                  const Text('소환사 아이콘자리'),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            widget.riotId.split("#")[0],
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24,
+                            ),
+                          ),
+                          Text(
+                            '#${widget.riotId.split("#")[1]}',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 1), // 패딩 조정
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(4), // 둥근 모서리 반경 설정
+                          ),
+                          backgroundColor: const Color(0xff5079FF), // 버튼 배경 색상
+                        ),
+                        onPressed: () {},
+                        child: const Text(
+                          '전적갱신',
+                          style: TextStyle(
+                            color: Colors.white, // 텍스트 색상 설정
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
