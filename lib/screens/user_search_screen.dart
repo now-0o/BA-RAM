@@ -38,7 +38,8 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                       future: summonerProfile,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Row(
+                          return Stack(
+                            clipBehavior: Clip.none,
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
@@ -47,23 +48,20 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                   'https://ddragon.leagueoflegends.com/cdn/14.21.1/img/profileicon/${snapshot.data!.profileIconId}.png',
                                 ),
                               ),
-                              Transform.translate(
-                                offset: const Offset(-66, 50),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 6.0, vertical: 4.0), // 내부 여백
-                                  decoration: BoxDecoration(
-                                    color: Colors.black, // 검은색 배경
-                                    borderRadius: BorderRadius.circular(
-                                        4.0), // 약간 둥근 모서리 (선택 사항)
-                                  ),
-                                  child: Text(
-                                    snapshot.data!.summonerLevel,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 6.0, vertical: 4.0), // 내부 여백
+                                decoration: BoxDecoration(
+                                  color: Colors.black, // 검은색 배경
+                                  borderRadius: BorderRadius.circular(
+                                      4.0), // 약간 둥근 모서리 (선택 사항)
+                                ),
+                                child: Text(
+                                  snapshot.data!.summonerLevel,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -72,6 +70,9 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                         }
                         return Container();
                       },
+                    ),
+                    const SizedBox(
+                      width: 20,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
