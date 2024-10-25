@@ -16,8 +16,13 @@ class UserSearchScreen extends StatefulWidget {
 }
 
 class _UserSearchScreenState extends State<UserSearchScreen> {
-  late Future<SummonerProfile> summonerProfile =
-      ApiService.getSummonerProfile(widget.riotId);
+  late Future<SummonerProfile> summonerProfile;
+
+  @override
+  void initState() {
+    super.initState();
+    summonerProfile = ApiService.getSummonerProfile(widget.riotId);
+  }
 
   @override
   Widget build(BuildContext context) {
