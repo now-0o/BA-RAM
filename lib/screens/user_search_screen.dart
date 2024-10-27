@@ -5,10 +5,9 @@ import 'package:baram/services/api_service.dart';
 class UserSearchScreen extends StatefulWidget {
   final String riotId; // riotId 전달받기
 
-  // 생성자에서 riotId를 받아오기
   const UserSearchScreen({
     super.key,
-    required this.riotId, // 이 부분 추가
+    required this.riotId,
   });
 
   @override
@@ -17,11 +16,33 @@ class UserSearchScreen extends StatefulWidget {
 
 class _UserSearchScreenState extends State<UserSearchScreen> {
   late Future<SummonerProfile> summonerProfile;
+  List<bool>? aramWinList; // 승패 목록 저장
+  bool isLoading = false; // 로딩 상태 표시
 
   @override
   void initState() {
     super.initState();
     summonerProfile = ApiService.getSummonerProfile(widget.riotId);
+  }
+
+  // 승패 조회 함수
+  Future<void> _fetchAramTier() async {
+    setState(() {
+      isLoading = true; // 로딩 시작
+    });
+
+    try {
+      final result = await ApiService.getAramTier(widget.riotId);
+      setState(() {
+        aramWinList = result; // 승패 목록 저장
+      });
+    } catch (e) {
+      print('오류 발생: $e'); // 오류 처리
+    } finally {
+      setState(() {
+        isLoading = false; // 로딩 종료
+      });
+    }
   }
 
   @override
@@ -55,11 +76,10 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                               ),
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 6.0, vertical: 4.0), // 내부 여백
+                                    horizontal: 6.0, vertical: 4.0),
                                 decoration: BoxDecoration(
-                                  color: Colors.black, // 검은색 배경
-                                  borderRadius: BorderRadius.circular(
-                                      4.0), // 약간 둥근 모서리 (선택 사항)
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(4.0),
                                 ),
                                 child: Text(
                                   snapshot.data!.summonerLevel,
@@ -76,9 +96,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                         return Container();
                       },
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
+                    const SizedBox(width: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -104,29 +122,58 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 1), // 패딩 조정
+                                horizontal: 20, vertical: 1),
                             shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(4), // 둥근 모서리 반경 설정
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                            backgroundColor:
-                                const Color(0xff5079FF), // 버튼 배경 색상
+                            backgroundColor: const Color(0xff5079FF),
                           ),
-                          onPressed: () {},
+                          onPressed: _fetchAramTier, // 승패 조회 함수 연결
                           child: const Text(
                             '전적갱신',
                             style: TextStyle(
-                              color: Colors.white, // 텍스트 색상 설정
+                              color: Colors.white,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     )
                   ],
                 ),
               ),
             ],
-          )
+          ),
+          const SizedBox(height: 20),
+          // Column으로 승패 목록을 표시
+          if (isLoading)
+            const CircularProgressIndicator() // 로딩 표시
+          else if (aramWinList != null)
+            Expanded(
+              child: ListView.builder(
+                itemCount: aramWinList!.length,
+                itemBuilder: (context, index) {
+                  final isWin = aramWinList![index];
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 4.0),
+                    padding: const EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: isWin ? Colors.green : Colors.red,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      isWin ? '승리' : '패배',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
+          else
+            const Text('데이터가 없습니다.'),
         ],
       ),
     );
