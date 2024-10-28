@@ -91,6 +91,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     onFieldSubmitted: (value) => _submitForm(),
                   ),
                   const SizedBox(height: 20),
+                  const Row(
+                    children: [
+                      Text(
+                        '패치노트',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
