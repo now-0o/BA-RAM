@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'user_search_screen.dart'; // UserSearchScreen 임포트
+import 'package:baram/widgets/patch_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,12 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-            Row(
+      body: Column(
+        children: [
+          const SizedBox(height: 50),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset('imgs/BA-RAM_blue.png'),
@@ -57,8 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
-            Form(
+          ),
+          const SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Form(
               key: _formKey,
               child: Column(
                 children: [
@@ -90,23 +98,62 @@ class _HomeScreenState extends State<HomeScreen> {
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (value) => _submitForm(),
                   ),
-                  const SizedBox(height: 20),
-                  const Row(
-                    children: [
-                      Text(
-                        '패치노트',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Row(
+              children: [
+                Text(
+                  '패치노트',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                PatchCard(
+                  version: '14.21',
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                PatchCard(
+                  version: '14.20',
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                PatchCard(
+                  version: '14.19',
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                PatchCard(
+                  version: '14.18',
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
