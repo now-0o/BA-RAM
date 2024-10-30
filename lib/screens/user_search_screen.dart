@@ -18,6 +18,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
   late Future<SummonerProfile> summonerProfile;
   List<bool>? aramWinList; // 승패 목록 저장
   bool isLoading = false; // 로딩 상태 표시
+  int score = 0;
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
       setState(() {
         aramWinList = result; // 승패 목록 저장
       });
+      score = await countWin();
     } catch (e) {
       print('오류 발생: $e'); // 오류 처리
     } finally {
@@ -43,6 +45,31 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
         isLoading = false; // 로딩 종료
       });
     }
+  }
+
+  Future<int> countWin() async {
+    int localCount = 0;
+    int localScore = 0;
+    bool localCheck = false;
+
+    for (var win in aramWinList!) {
+      if (win != localCheck) {
+        localCount = 0;
+      }
+
+      if (win == true) {
+        localCount = localCount + 5;
+        localScore += (localCount + 23);
+      } else {
+        localCount = localCount - 4;
+        localScore += (localCount - 19);
+      }
+
+      localCheck = win;
+      print('승패: $win, localCount: $localCount, localScore: $localScore');
+    }
+
+    return localScore; // 최종 점수 반환
   }
 
   @override
@@ -117,6 +144,10 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                 color: Colors.grey,
                               ),
                             ),
+                            const SizedBox(
+                              width: 40,
+                            ),
+                            Text('점수 : $score'),
                           ],
                         ),
                         ElevatedButton(
