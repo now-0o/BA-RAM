@@ -20,6 +20,7 @@ class ApiService {
       final Map<String, dynamic> riotUserInfo = jsonDecode(response.body);
       final String puuid = riotUserInfo['puuid'] ?? "";
 
+      print(puuid);
       if (puuid.isNotEmpty) {
         const baseUri2 =
             'https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-puuid';
@@ -94,6 +95,7 @@ class ApiService {
 
   // 개별 게임의 승리 여부 확인 함수
   static Future<bool> _checkWin(String matchId, String puuid) async {
+    int wincount = 0;
     final url = Uri.parse(
         'https://asia.api.riotgames.com/lol/match/v5/matches/$matchId?api_key=RGAPI-c7c497f6-9280-40e7-b817-0134f9afe3c4');
     final response = await http.get(url);
@@ -107,6 +109,16 @@ class ApiService {
         (participant) => participant['puuid'] == puuid,
         orElse: () => null,
       );
+
+      if (player != null) {
+        var name = player['summonerName'];
+        print(name);
+        var kills = player['kills'];
+        print(kills);
+
+        bool win = player['win'];
+        print(win);
+      }
 
       if (player != null) {
         return player['win'];
