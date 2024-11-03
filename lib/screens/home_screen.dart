@@ -122,34 +122,22 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             height: 10,
           ),
-          const SingleChildScrollView(
+          SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                SizedBox(
-                  width: 20,
+                const SizedBox(width: 20),
+                ...List.generate(
+                  4,
+                  (index) => Row(
+                    children: [
+                      PatchCard(
+                        version: '14.${21 - index}',
+                      ),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
                 ),
-                PatchCard(
-                  version: '14.21',
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                PatchCard(
-                  version: '14.20',
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                PatchCard(
-                  version: '14.19',
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                PatchCard(
-                  version: '14.18',
-                )
               ],
             ),
           ),
