@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                const SizedBox(width: 20),
+                const SizedBox(width: 16),
                 ...List.generate(
                   4,
                   (index) => Row(
